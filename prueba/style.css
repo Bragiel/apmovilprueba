@@ -1,0 +1,15 @@
+td, th {
+    border: 1px solid gray;
+    padding: 5px;
+}
+
+th {cursor: pointer; background: #eee;}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.collapsed {
+    display: none;
+}

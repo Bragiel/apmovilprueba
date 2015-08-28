@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Reporte Pedido</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<style>p {font-size:0.8em;}body {background-color:#f0f0f0; font-family:Arial,Helvetica,sans-serif;} </style>
+	</head>
+	<body>
+		<table border="0" cellpadding="5" >
+			<thead bgcolor="#ffffff">
+				<tr>
+					<td td colspan="9">
+						<table width="100%" border="0" cellpadding="0" bgcolor="#ffffff">
+							<tr>
+								<td align="center" font-size="0.875em">
+									<b>COMERCIAL ROCHE, SA DE  CV<br/></b>Sal Industrial y Comercial.
+									<HR width="100%">
+										<p>Calle 22  entre 1 H Y 1 H San Antonio Cinta Mérida, Yucatán C.P. 97139 Tels: 9999423542   9999423541</p>
+								</td>
+								<td  align="center">
+									<b style="color:black;">P E D I D O</b><br/>
+									<b style="color:red;">No. <?php echo $data['folio']; ?></b>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td>
+						<img src="../assets/img/roche.gif">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="9">
+						<table border="0" cellpadding="3" >
+							<tr>
+								<td>
+									<table border="0" cellpadding="3" >
+										<tr>
+											<td>
+												<b>No. Cliente: </b><?php echo $data['clienteid']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<b>Razon social o propietario: </b><?php echo $data['propietario']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<b>Direcci&oacute;n: </b><?php echo $datas[$clienteid]['Direccion']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<b>Estado: </b><?php echo $datas[$clienteid]['Estado']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<b>Lista de precios:</b> <?php echo $data['lista_precios']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<b>Forma de Envio: </b><?php echo $data['forma_envio']; ?>
+											</td>
+										</tr>
+									</table>
+								</td>
+								<td>
+									<table border="0" cellpadding="3" >
+										<tr>
+											<td>
+												<b>Agente: </b><?php echo $data['agente_id'] . ' ' . $data['agente']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<b>Fecha: </b><?php echo $data['fecha']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<b>Condiciones: </b><?php echo $data['condiciones']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<b>Sucursal: </b><?php echo $data['sucursal']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<b>Almacen: </b><?php echo $data['almacen']; ?>&nbsp&nbsp&nbsp<b>Zona de Impuestos: </b><?php echo $data['zona_impuestos']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<b>Precio de Flete: </b><?php echo $datas[$clienteid]['PrecioFlete']; ?>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr  bgcolor="#dddddd">
+					<td>Cant</td>
+					<td>Clave</td>
+					<td>Descripci&oacute;n</td>
+					<td>Peso</td>
+					<td>P/Ton</td>
+					<td>Subtotal</td>
+					<td>Desc.</td>
+					<td>Importe</td>
+					<td>Impuestos</td>
+					<td>Totales</td>
+				</tr>
+			</thead>
+			<tbody bgcolor="#ffffff">
+					<?php
+					$qry1=mssql_query("spReportePedidoDBB ".$folio);
+						while ($  = mssql_fetch_array($qry1)) {
+							$results1[] = $row;
+						}
+					?>
+
+						<?php 
+						$i=0;
+						foreach($results1 as $key => $row){ 
+							//if($i!=0){
+								?>
+							<tr>
+								<td align="right"><?php echo $row['Cantidad']; ?></td>
+								<td align="right"><?php echo $row['Articulo']; ?></td>
+								<td><?php echo $row['Descripcion1']; ?></td>
+								<td align="right"><?php echo $row['Peso']; ?></td>
+								<td align="right"><?php echo $row['PTon']; ?></td>
+								<td align="right"><?php echo $row['Subtotal']; ?></td>
+								<td align="right"><?php echo $row['Descuentos']; ?></td>
+								<td align="right"><?php echo $row['Importe']; ?></td>
+								<td align="right"><?php echo $row['Impuestos']; ?></td>
+								<td align="right"><?php echo $row['Total']; ?></td>
+							</tr>
+						<?php ;
+							//}$i++;
+						} 
+						?>
+				</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="7"></td>
+					<td bgcolor="#ffffff">Subtotal</td>
+					<td bgcolor="#ffffff"  align="right"><?php echo $datas[$clienteid]['Subtotal']; ?></td>
+				</tr>
+				<tr>
+					<td colspan="7"></td>
+					<td bgcolor="#ffffff">D.P.A.</td>
+					<td bgcolor="#ffffff"  align="right"><?php echo $datas[$clienteid]['DPA']; ?></td>
+				</tr>
+				<tr>
+					<td colspan="7"></td>
+					<td bgcolor="#ffffff">D. Flete</td>
+					<td bgcolor="#ffffff"  align="right"><?php echo $datas[$clienteid]['DescXFlete']; ?></td>
+				</tr>
+				<tr>
+					<td colspan="7"></td>
+					<td bgcolor="#ffffff">Subtotal</td>
+					<td bgcolor="#ffffff"  align="right"><?php echo $datas[$clienteid]['Sub']; ?></td>
+				</tr>
+				<tr><td colspan="7"></td>
+					<td bgcolor="#ffffff">IVA</td>
+					<td bgcolor="#ffffff"  align="right"><?php echo $datas[$clienteid]['Impuesto']; ?></td>
+				</tr>
+				<tr>
+					<td colspan="7"></td>
+					<td bgcolor="#ffffff">Total</td>
+					<td bgcolor="#ffffff"  align="right"><?php echo $datas[$clienteid]['Total']; ?></td>
+				</tr>
+				<tr>
+					<td colspan="9" bgcolor="#dddddd">Observaciones: <?php echo $data['observaciones']; ?></td>
+				</tr>
+				<tr>
+					<td colspan="9" bgcolor="#dddddd">Orden de compra: <?php echo $data['orden_compra']; ?></td>
+				</tr>
+				<tr>
+					<td colspan="9" bgcolor="#ffffff">Esta es una pedido generado usando el dispositivo móvil del Agente: <?php echo $data['agente']; ?></td>
+				</tr>
+			</tfoot>
+				
+		</table>
+	</body>
+</html>
